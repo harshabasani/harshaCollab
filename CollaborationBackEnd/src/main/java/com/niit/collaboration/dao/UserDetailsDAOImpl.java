@@ -8,13 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 
 @Repository("userDetailsDAO")
 public class UserDetailsDAOImpl implements UserDetailsDAO{
 	
 	public UserDetailsDAOImpl()
 	{
-		
+		System.out.println("*************default constructor called in UserDetailsDAOImpl***************");
 	}
 	
 	@Autowired
@@ -24,6 +25,7 @@ public class UserDetailsDAOImpl implements UserDetailsDAO{
 	{
 		this.sessionFactory = sessionFactory;
 	}
+	
 	
 	@Transactional
 	public void saveOrUpdate(UserDetails userDetails)
@@ -35,9 +37,37 @@ public class UserDetailsDAOImpl implements UserDetailsDAO{
 	@Transactional
 	public List<UserDetails> list()
 	{
-		@SuppressWarnings({ "unchecked" })
+		System.out.println("*************list called in UserDetailsDAO*************");
+		@SuppressWarnings("unchecked")
 		List<UserDetails> list = (List<UserDetails>) sessionFactory.getCurrentSession().createCriteria(UserDetails.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return list;
+	}
+	
+	@Transactional
+	public UserDetails get(String id)
+	{
+		System.out.println("*************get called in UserDetailsDAO*************");
+		String hql = "from UserDetails where id =" + "'"+ id + "'" ;
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		
+		@SuppressWarnings("unchecked")
+		List<UserDetails> list = (List<UserDetails>) query.list();
+		
+		if(list!=null && !list.isEmpty())
+		{
+			return list.get(0);
+		}
+		
+		return null;
+	}
+	
+	@Transactional
+	public void delete(String id)
+	{
+		System.out.println("*************delete called in UserDetailsDAO*************");
+		UserDetails userDetails = new UserDetails();
+		userDetails.setId(id);
+		sessionFactory.getCurrentSession().delete(userDetails);
 	}
 
 }

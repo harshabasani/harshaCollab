@@ -29,6 +29,8 @@ public class UserDetails
 	
 	private char status;
 	
+	private String reason;
+	
 	
 	public String getId() {
 		return id;
@@ -103,6 +105,12 @@ public class UserDetails
 	}
 	public void setStatus(char status) {
 		this.status = status;
+	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 	
 }

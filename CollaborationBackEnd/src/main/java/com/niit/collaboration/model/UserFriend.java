@@ -1,8 +1,6 @@
 package com.niit.collaboration.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,12 +8,11 @@ import org.springframework.stereotype.Component;
 
 
 @Entity
-@Table(name = "FRIEND")
+@Table(name = "USER_FRIEND")
 @Component
-public class Friend {
+public class UserFriend {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	private String user_id;

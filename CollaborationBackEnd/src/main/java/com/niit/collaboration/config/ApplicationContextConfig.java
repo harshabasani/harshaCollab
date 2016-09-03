@@ -18,6 +18,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.niit.collaboration.model.UserDetails;
 
+import antlr.debug.Event;
+
+import com.niit.collaboration.model.Job;
+
 @Configuration
 @ComponentScan("com.niit.collaboration")
 @EnableTransactionManagement
@@ -26,6 +30,7 @@ public class ApplicationContextConfig
 	@Bean(name="dataSource")
 	public DataSource getDataSource()
 	{
+		System.out.println("*************getDataSource called in ApplicationContextConfig***************");
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
 		dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:XE");
@@ -36,6 +41,7 @@ public class ApplicationContextConfig
 	
 	private Properties getHibernateProperties()
 	{
+		System.out.println("*************getHibernateProperties called in ApplicationContextConfig***************");
 		Properties properties = new Properties();
 		properties.put("hibernate.show_SQL","true");
 		properties.put("hibernate.dialect","org.hibernate.dialect.Oracle10gDialect");
@@ -47,9 +53,12 @@ public class ApplicationContextConfig
 	@Bean(name="sessionFactory")
 	public SessionFactory getSessionFactory(DataSource dataSource)
 	{
+		System.out.println("*************getSessionFactory called in ApplicationContextConfig***************");
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 		sessionBuilder.addProperties(getHibernateProperties());
 		sessionBuilder.addAnnotatedClasses(UserDetails.class);
+		sessionBuilder.addAnnotatedClasses(Job.class);
+		sessionBuilder.addAnnotatedClasses(Event.class);
 		return sessionBuilder.buildSessionFactory();
 	}
 	
@@ -57,6 +66,7 @@ public class ApplicationContextConfig
 	@Bean(name="transactionManager")
 	public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory)
 	{
+		System.out.println("*************getTransactionManager called in ApplicationContextConfig***************");
 		HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
 		
 		return transactionManager;
