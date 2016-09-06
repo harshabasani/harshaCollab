@@ -20,6 +20,8 @@ import com.niit.collaboration.model.UserDetails;
 
 import antlr.debug.Event;
 
+import com.niit.collaboration.dao.UserDetailsDAO;
+import com.niit.collaboration.dao.UserDetailsDAOImpl;
 import com.niit.collaboration.model.Job;
 
 @Configuration
@@ -70,6 +72,14 @@ public class ApplicationContextConfig
 		HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
 		
 		return transactionManager;
+	}
+	
+	@Autowired
+	@Bean(name="userDetailsDAO")
+	public UserDetailsDAO getUserDetailsDAO(SessionFactory sessionFactory)
+	{
+		System.out.println("************getUserDetailsDAO bean called in ApplicationContextConfig***************");
+		return new UserDetailsDAOImpl(sessionFactory);
 	}
 
 	
