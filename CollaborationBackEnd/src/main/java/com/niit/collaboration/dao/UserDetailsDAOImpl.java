@@ -69,5 +69,21 @@ public class UserDetailsDAOImpl implements UserDetailsDAO{
 		userDetails.setId(id);
 		sessionFactory.getCurrentSession().delete(userDetails);
 	}
+	
+	@Transactional
+	public boolean isValidUserDetails(String id,String password)
+	{
+		String hql = "from User where id= '" + id + "' and " + " password ='" + password+"'";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		
+		@SuppressWarnings("unchecked")
+		List<UserDetails> list = (List<UserDetails>) query.list();
+		
+		if (list != null && !list.isEmpty()) {
+			return true;
+		}
+		
+		return false;
+	}
 
 }
